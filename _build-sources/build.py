@@ -118,41 +118,72 @@ def testimonials_section(items=None, eyebrow="What clients say", title="Trusted 
         inner = '<div class="tgrid">%s</div>' % cards
     return section(id, eyebrow, title, intro, inner, alt=alt)
 
-def security_split(feats_html, caption):
-    visual = ('<div class="sec-visual" aria-hidden="true">'
-        '<svg viewBox="0 0 340 300" role="img" xmlns="http://www.w3.org/2000/svg">'
-        '<defs><linearGradient id="secsh" x1="0" y1="0" x2="0" y2="1">'
-        '<stop offset="0" stop-color="var(--primary)" stop-opacity=".16"/>'
-        '<stop offset="1" stop-color="var(--primary)" stop-opacity="0"/></linearGradient></defs>'
-        # framing panel
-        '<rect x="14" y="14" width="312" height="272" rx="20" fill="var(--bg-3)" stroke="var(--line)"/>'
-        # data-flow nodes + dashed links feeding the shield
-        '<g stroke="var(--accent-2)" stroke-width="2" fill="none" opacity=".7" stroke-dasharray="3 6" stroke-linecap="round">'
-        '<path d="M58 92 H120"/><path d="M282 92 H220"/><path d="M58 208 H120"/><path d="M282 208 H220"/></g>'
-        '<g fill="var(--accent-2)">'
-        '<circle cx="54" cy="92" r="5"/><circle cx="286" cy="92" r="5"/>'
-        '<circle cx="54" cy="208" r="5"/><circle cx="286" cy="208" r="5"/></g>'
-        # shield
-        '<path d="M170 54l60 24v44c0 44-30 74-60 90-30-16-60-46-60-90V78l60-24z" fill="url(#secsh)" stroke="var(--accent)" stroke-width="3"/>'
-        # padlock inside shield
-        '<rect x="146" y="132" width="48" height="40" rx="7" fill="var(--bg-2)" stroke="var(--primary)" stroke-width="3"/>'
-        '<path d="M153 132v-9a17 17 0 0 1 34 0v9" fill="none" stroke="var(--primary)" stroke-width="3"/>'
-        '<circle cx="170" cy="148" r="5" fill="var(--accent)"/>'
-        '<rect x="168" y="150" width="4" height="12" rx="2" fill="var(--accent)"/>'
-        # verified badge
-        '<circle cx="214" cy="170" r="17" fill="var(--bg-2)" stroke="var(--positive)" stroke-width="2.5"/>'
-        '<path d="M206 170l5 5 11-12" fill="none" stroke="var(--positive)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'
-        # encrypted data row + progress
-        '<g fill="var(--line-2)">'
-        '<rect x="104" y="244" width="20" height="14" rx="3"/><rect x="130" y="244" width="20" height="14" rx="3"/>'
-        '<rect x="156" y="244" width="20" height="14" rx="3"/><rect x="182" y="244" width="20" height="14" rx="3"/>'
-        '<rect x="208" y="244" width="20" height="14" rx="3"/></g>'
-        '<rect x="104" y="244" width="20" height="14" rx="3" fill="var(--accent)"/>'
-        '<rect x="130" y="244" width="20" height="14" rx="3" fill="var(--accent)"/>'
-        '<rect x="156" y="244" width="20" height="14" rx="3" fill="var(--accent)" opacity=".5"/>'
+def _sec_visual(caption):
+    return ('<div class="sec-visual" aria-hidden="true">'
+        '<svg viewBox="0 0 560 420" role="img" xmlns="http://www.w3.org/2000/svg">'
+        '<defs>'
+        '<linearGradient id="secVault" x1="0" y1="0" x2="0" y2="1">'
+        '<stop offset="0" stop-color="var(--accent-fill)"/><stop offset="1" stop-color="var(--accent)"/></linearGradient>'
+        '<linearGradient id="secShield" x1="0" y1="0" x2="0" y2="1">'
+        '<stop offset="0" stop-color="var(--primary-2)" stop-opacity=".30"/><stop offset="1" stop-color="var(--primary)" stop-opacity=".06"/></linearGradient>'
+        '</defs>'
+        # dashed flight path
+        '<path d="M300 70 C 360 44, 420 56, 472 64" fill="none" stroke="var(--accent-2)" stroke-width="2.5" stroke-dasharray="2 8" stroke-linecap="round" opacity=".7"/>'
+        # clouds
+        '<g fill="var(--line-2)" opacity=".55">'
+        '<g><circle cx="118" cy="82" r="13"/><circle cx="138" cy="76" r="17"/><circle cx="158" cy="84" r="12"/><rect x="116" y="82" width="46" height="14" rx="7"/></g>'
+        '<g opacity=".85"><circle cx="432" cy="118" r="10"/><circle cx="448" cy="112" r="13"/><rect x="430" y="116" width="34" height="11" rx="5.5"/></g></g>'
+        # paper plane
+        '<g><path d="M452 84 l54 -24 -16 42 -17 -15 -21 -3z" fill="var(--accent)"/>'
+        '<path d="M506 60 l-33 27 -4 18" fill="none" stroke="var(--bg-2)" stroke-width="2.5" stroke-linejoin="round" opacity=".55"/></g>'
+        # password field
+        '<g><rect x="70" y="104" width="128" height="32" rx="16" fill="var(--bg-2)" stroke="var(--line)" stroke-width="2"/>'
+        '<g fill="var(--accent)"><circle cx="92" cy="120" r="5"/><circle cx="112" cy="120" r="5"/><circle cx="132" cy="120" r="5"/><circle cx="152" cy="120" r="5"/><circle cx="172" cy="120" r="5"/></g></g>'
+        # ground line
+        '<g stroke="var(--line-2)" stroke-width="4" stroke-linecap="round">'
+        '<path d="M80 388 H300"/><path d="M326 388 H356"/><path d="M384 388 H474"/></g>'
+        # folder (open)
+        '<g><path d="M120 296 q0 -10 10 -10 h120 q10 0 10 10 v66 q0 10 -10 10 h-120 q-10 0 -10 -10 z" fill="var(--primary)"/>'
+        '<rect x="150" y="276" width="92" height="58" rx="5" fill="var(--bg-2)"/>'
+        '<g fill="var(--line-2)"><rect x="160" y="290" width="72" height="6" rx="3"/><rect x="160" y="304" width="56" height="6" rx="3"/></g>'
+        '<path d="M120 312 l14 -10 h112 q10 0 10 10 v40 q0 10 -10 10 h-126 q-10 0 -10 -10 z" fill="var(--primary-2)"/></g>'
+        # magnifier
+        '<g><line x1="203" y1="211" x2="238" y2="246" stroke="var(--primary-2)" stroke-width="13" stroke-linecap="round"/>'
+        '<circle cx="176" cy="188" r="37" fill="var(--bg-3)" stroke="var(--primary)" stroke-width="7"/>'
+        '<path d="M162 174 a20 20 0 0 1 16 -7" fill="none" stroke="var(--bg-2)" stroke-width="4" stroke-linecap="round" opacity=".7"/></g>'
+        # vault / padlock
+        '<path d="M286 152 v-20 a52 52 0 0 1 104 0 v20" fill="none" stroke="var(--primary)" stroke-width="17" stroke-linecap="round"/>'
+        '<rect x="252" y="150" width="168" height="196" rx="24" fill="url(#secVault)"/>'
+        '<rect x="252" y="196" width="168" height="22" fill="#000" fill-opacity=".12"/>'
+        '<circle cx="336" cy="276" r="33" fill="var(--bg-2)"/>'
+        '<circle cx="336" cy="267" r="9" fill="var(--accent)"/>'
+        '<path d="M336 270 l9 26 h-18 z" fill="var(--accent)"/>'
+        # shield + check
+        '<path d="M454 250 l48 17 v34 c0 35 -24 58 -48 70 -24 -12 -48 -35 -48 -70 v-34 z" fill="url(#secShield)" stroke="var(--primary)" stroke-width="5"/>'
+        '<path d="M432 300 l15 15 27 -29" fill="none" stroke="var(--positive)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>'
+        # decorative crosses, rings & dots
+        '<g stroke="var(--accent-2)" stroke-width="3" stroke-linecap="round" opacity=".8">'
+        '<path d="M64 220 l11 11 M75 220 l-11 11"/><path d="M236 116 l9 9 M245 116 l-9 9"/><path d="M404 150 l9 9 M413 150 l-9 9"/></g>'
+        '<g fill="none" stroke="var(--accent)" stroke-width="3" opacity=".7"><circle cx="512" cy="208" r="7"/><circle cx="92" cy="300" r="6"/></g>'
+        '<g fill="var(--accent-2)" opacity=".6"><circle cx="300" cy="118" r="4"/><circle cx="484" cy="300" r="4"/></g>'
         '</svg>'
         '<p class="sec-cap">%s</p></div>') % caption
-    return '<div class="split-2 split-2--rev">%s%s</div>' % (feats_html, visual)
+
+def security_section(id, eyebrow, title, intro, feats_html, caption, alt=False):
+    """Security section: heading + intro + feature list in the left column,
+    the data-security visual filling the right column (vertically centred)."""
+    h2id = id + "-title"
+    head = ('<div class="section-head" style="margin-bottom:22px">'
+            '<span class="eyebrow">%s</span>'
+            '<h2 class="section-title" id="%s">%s</h2>'
+            '<p class="lead" data-tw>%s</p></div>') % (eyebrow, h2id, title, intro)
+    left = '<div class="sec-main">%s%s</div>' % (head, feats_html)
+    inner = '<div class="split-2 split-2--rev sec-split">%s%s</div>' % (left, _sec_visual(caption))
+    cls = "section alt" if alt else "section"
+    return '<section class="%s" id="%s" aria-labelledby="%s"><div class="shell">%s</div></section>' % (cls, id, h2id, inner)
+
+def security_split(feats_html, caption):
+    return '<div class="split-2 split-2--rev">%s%s</div>' % (feats_html, _sec_visual(caption))
 
 # ---------------------------------------------------------------- helpers
 def section(id, eyebrow, title, intro, inner, alt=False, title_tw=False):
@@ -364,10 +395,8 @@ def build_home():
     hero = ('<section class="hero hero-grid" id="top"><div class="shell"><div class="hero-inner">'
         '<div>'
         '<span class="eyebrow">Outsourced accounting, finance &amp; Virtual CFO · Australia</span>'
-        '<h1><span class="accent">Your</span> standards. Our expertise.</h1>'
+        '<h1>Your standards. Our expertise.</h1>'
         '<p class="answer-lede">INFITEX Global Advisory is an India-based, white-label accounting and bookkeeping outsourcing partner for Australian accounting practices and businesses — covering bookkeeping, payroll and STP, BAS, year-end, tax, SMSF, management reporting and Virtual CFO, while your practice keeps lodgement and sign-off.</p>'
-        '<div class="hero-cta"><a class="btn btn-primary" href="contact.html">Request a pilot</a>'
-        '<a class="btn btn-ghost" data-booking href="contact.html">Book a 15-min call</a></div>'
         '<ul class="hero-paths hero-paths--list">'
         '<li><a class="path-chip" href="outsourcing.html"><b>For practices</b> <span>— White-label</span></a></li>'
         '<li><a class="path-chip" href="industry.html"><b>For business</b> <span>— Finance &amp; Virtual CFO</span></a></li>'
@@ -379,7 +408,7 @@ def build_home():
         '<h2 id="hero-pilot-title">Start with a low-risk pilot</h2>'
         '<p>Pick a small, defined scope. See the quality, the communication and the turnaround for yourself before you scale.</p>'
         '<div class="hero-cta"><a class="btn btn-primary" href="contact.html">Request a pilot</a>'
-        '<a class="btn btn-ghost" data-booking href="contact.html">Book a call</a></div>'
+        '<a class="btn btn-ghost" data-booking href="contact.html">Book a 15-min call</a></div>'
         '</aside>'
         '<div class="hero-contact" aria-label="Quick contact options">'
         '<span class="eyebrow">Talk to us</span>'
@@ -449,9 +478,9 @@ def build_home():
         + feat("check", "Maker–checker controls", "Independent review on every job before it reaches your queue.")
         + feat("cog", "ISO 27001 alignment (on roadmap)", "We are aligning our controls to ISO 27001. This is a direction of travel, not a current certification claim.")
         + '</ul>')
-    s_sec = section("security", "Security &amp; trust", "Your clients' data, handled carefully",
+    s_sec = security_section("security", "Security &amp; trust", "Your clients' data, handled carefully",
         "Security isn't a bolt-on. It's how we set up every engagement from day one.",
-        security_split(sec_feats, "Every engagement is set up with scoped access, independent review and signed confidentiality."))
+        sec_feats, "Every engagement is set up with scoped access, independent review and signed confidentiality.")
 
     dig = ('<div class="grid grid-3">'
         + card("globe", "Websites that convert", "Fast, accessible, mobile-first sites built for accounting and bookkeeping practices.", "digitech.html")
@@ -619,9 +648,9 @@ def build_outsourcing():
         + feat("shield", "Confidentiality agreements", "Clear data-handling rules for client information.")
         + feat("cog", "ISO 27001 alignment (on roadmap)", "Aligning controls to ISO 27001; not yet certified.")
         + '</ul>')
-    s_sec = section("security", "Security", "Careful with your clients' data",
+    s_sec = security_section("security", "Security", "Careful with your clients' data",
         "The same controls apply to every engagement, from a single job to a dedicated team.",
-        security_split(sec, "Scoped access, independent review and signed confidentiality on every job."))
+        sec, "Scoped access, independent review and signed confidentiality on every job.")
 
     s_how = section("how", "How it works", "A simple, low-risk way to slot into your practice",
         "No big-bang changeover. We earn trust on a small scope first, then scale at your pace.",
@@ -768,9 +797,9 @@ def build_industry():
         + feat("shield", "Confidentiality agreements", "Clear data-handling rules for your financial information.")
         + feat("cog", "ISO 27001 alignment (on roadmap)", "Aligning controls to ISO 27001; not yet certified.")
         + '</ul>')
-    s_sec = section("security", "Security", "Your financial data, handled carefully",
+    s_sec = security_section("security", "Security", "Your financial data, handled carefully",
         "The same controls apply whether you take a single role or a full finance team.",
-        security_split(sec_feats, "Role-based access, independent review and confidentiality by design."))
+        sec_feats, "Role-based access, independent review and confidentiality by design.")
 
     # Why INFITEX — finance team that feels in-house (from reference, AU-aligned)
     why = ('<div class="grid grid-2">'
@@ -1232,16 +1261,16 @@ def build_contact():
         '<p class="answer-lede">Tell us what you need help with and we will come back to you by email — no obligation, and no pressure to commit. Prefer chat or a quick call? Use WhatsApp, book a time, or email us directly.</p>'
         '</div></section>')
     subscribe = ('<section class="section" id="subscribe" aria-labelledby="subscribe-title"><div class="shell">'
-        '<div class="subscribe-block">'
-        '<div class="section-head" style="margin:0">'
+        '<div class="subscribe-block subscribe-row">'
+        '<div class="sb-text">'
         '<span class="eyebrow">Stay in the loop</span>'
         '<h2 class="section-title" id="subscribe-title">Australian compliance-dates digest</h2>'
-        '<p class="lead">An occasional, opt-in email with upcoming BAS, IAS, super and tax dates. No spam, unsubscribe anytime.</p></div>'
+        '<p class="lead" style="margin:0">An occasional, opt-in email with upcoming BAS, IAS, super and tax dates.</p></div>'
         '<form id="subscribeForm" class="fs-form" novalidate>'
         '<div class="fs-row"><label class="sr-only" for="sub-email">Email</label>'
         '<input class="input" id="sub-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@yourfirm.com.au" required>'
         '<button type="submit" class="btn btn-primary">Subscribe</button></div>'
-        '<label class="optin"><input type="checkbox" required><span>I agree to receive the compliance-dates digest and accept the <a href="privacy.html">Privacy</a> terms. I can unsubscribe anytime (Spam Act 2003 compliant).</span></label>'
+        '<label class="optin"><input type="checkbox" required><span>I agree to receive the compliance-dates digest and accept the <a href="privacy.html">Privacy</a> terms. Unsubscribe anytime (Spam Act 2003 compliant).</span></label>'
         '<p class="form-status" id="subStatus" role="status"></p>'
         '</form></div></div></section>')
     body = alt_sections(crumb + hero + contact_section(page_mode=True) + subscribe)
@@ -1259,6 +1288,16 @@ def write(fn, content):
     print("wrote", fn, "(%d bytes)" % len(content.encode("utf-8")))
 
 if __name__ == "__main__":
+    # Cache-busting: hash styles.css / app.js so each deploy gets fresh asset URLs.
+    import hashlib
+    def _ver(fn):
+        try:
+            with open(OUT + "/" + fn, "rb") as f: return hashlib.sha1(f.read()).hexdigest()[:8]
+        except OSError:
+            return ""
+    P.CSS_VER = _ver("styles.css")
+    P.JS_VER = _ver("app.js")
+    print("asset versions -> css:%s js:%s" % (P.CSS_VER or "(none)", P.JS_VER or "(none)"))
     write("index.html", build_home())
     write("outsourcing.html", build_outsourcing())
     write("industry.html", build_industry())
