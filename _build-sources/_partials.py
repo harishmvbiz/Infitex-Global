@@ -4,7 +4,7 @@ import os
 OUT = "/home/claude/infitex-site"
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-'<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">')
+'<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">')
 
 NOFLASH = ("<script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('ix-theme')||'light';"
 "d.setAttribute('data-theme',t);if(localStorage.getItem('ix-contrast')==='high')d.setAttribute('data-contrast','high');"
@@ -110,15 +110,15 @@ NAV = [
     ]),
     ("About us", None, [
         ("Company", [
-            ("About INFITEX", "index.html#about", "A dependable extension of your team, native to your stack."),
-            ("Vision, mission & values", "index.html#about", "What we stand for and how we work."),
+            ("About INFITEX", "about.html", "A dependable extension of your team, native to your stack."),
+            ("Vision, mission & values", "about.html#vmb", "What we stand for and how we work."),
         ]),
         ("Proof & answers", [
             ("Our stories", "index.html#testimonials", "What practices and businesses say about us."),
             ("FAQ", "index.html#faq", "Honest answers on the compliance line, security and how we work."),
         ]),
     ]),
-    ("Contact", "index.html#contact"),
+    ("Contact", "contact.html"),
 ]
 
 def _flat_nav_pairs():
@@ -208,14 +208,14 @@ def header(cur):
     '<button class="icon-btn" data-theme-toggle aria-label="Toggle light or dark theme" aria-pressed="false">'+IC["sun"]+'</button>'
     '<button class="icon-btn" data-open-a11y aria-label="Open accessibility settings">'+IC["access"]+'</button>'
     '<button class="icon-btn qr-header-btn" data-open-qr aria-label="Show QR code to save our contact" title="Save our contact (QR)">'+IC["qr"]+'</button>'
-    '<a class="btn btn-primary header-cta" href="index.html#contact">Get in touch</a>'
+    '<a class="btn btn-primary header-cta" href="contact.html">Get in touch</a>'
     '<button class="icon-btn hamburger" data-open-nav aria-label="Open menu" aria-expanded="false">'+IC["menu"]+'</button>'
     '</div></div></header>'
     '<div class="mobile-nav" id="mobileNav" aria-hidden="true"><div class="mobile-nav-top">'
     '<a class="brand" href="index.html" aria-label="INFITEX home">'+LOGO_SVG+'</a>'
     '<button class="icon-btn" data-close-nav aria-label="Close menu">'+IC["close"]+'</button></div>'
     '<nav aria-label="Mobile">'+mlinks+'</nav>'
-    '<div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-ghost" data-open-wa>WhatsApp us</button><a class="btn btn-primary" href="index.html#contact">Get in touch</a></div>'
+    '<div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-ghost" data-open-wa>WhatsApp us</button><a class="btn btn-primary" href="contact.html">Get in touch</a></div>'
     '</div>')
 
 def footer():
@@ -246,10 +246,10 @@ def footer():
     '<li><a href="industry.html#vcfo">Virtual CFO &amp; advisory</a></li>'
     '<li><a href="digitech.html#services">Digitech (web &amp; SEO)</a></li></ul></div>'
     '<div class="footer-col"><h4>Company</h4><ul>'
-    '<li><a href="index.html#about">About</a></li>'
-    '<li><a href="index.html#how">How it works</a></li>'
+    '<li><a href="about.html">About</a></li>'
+    '<li><a href="outsourcing.html#how">How it works</a></li>'
     '<li><a href="index.html#faq">FAQ</a></li>'
-    '<li><a href="index.html#contact">Contact</a></li>'
+    '<li><a href="contact.html">Contact</a></li>'
     '<li><a href="sitemap.html">Sitemap</a></li></ul></div>'
     '</div></div>'
     '<p class="compliance-line">INFITEX is not a registered Australian tax or BAS agent. We are the preparation and processing layer behind your practice, which retains lodgement and sign-off. We do not publish prices — contact us for the best pricing for your practice.</p>'
@@ -338,7 +338,10 @@ def search_overlay():
     '</div></div>')
 
 def fabs():
-    return ('<div class="fab"><a class="wa" href="#" data-open-wa role="button" aria-label="WhatsApp us">'+IC["wa"]+'</a>'
+    cal = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>'
+    return ('<div class="fab">'
+    '<a class="fab-cta" data-booking href="contact.html" role="button" aria-label="Book a quick call">'+cal+'<span>Book a call</span></a>'
+    '<a class="wa" href="#" data-open-wa role="button" aria-label="WhatsApp us">'+IC["wa"]+'</a>'
     '<button data-open-mail aria-label="Email us">'+IC["mail"]+'</button>'
     '<button id="backTop" aria-label="Back to top">'+IC["top"]+'</button></div>')
 
@@ -353,13 +356,14 @@ SEARCH_INDEX_JS = """<script>window.INFITEX_SEARCH=[
 {type:"Pages",title:"Digitech",snippet:"Websites, domains, hosting, business email, SEO and Google Business Profile.",url:"digitech.html"},
 {type:"Pages",title:"Privacy",snippet:"How we handle data, aligned to the Privacy Act 1988 and the APPs.",url:"privacy.html"},
 {type:"Pages",title:"Terms",snippet:"Terms of use for the INFITEX website and services.",url:"terms.html"},
+{type:"Pages",title:"Contact",snippet:"Send an enquiry, WhatsApp, book a call or email us.",url:"contact.html"},
 {type:"Pages",title:"Sitemap",snippet:"Every page and key section in one place.",url:"sitemap.html"},
-{type:"Sections",title:"How it works",snippet:"A simple, low-risk way to slot into your practice.",url:"index.html#how"},
+{type:"Sections",title:"How it works",snippet:"A simple, low-risk way to slot into your practice.",url:"outsourcing.html#how"},
 {type:"Sections",title:"Engagement models",snippet:"Dedicated staff, per-job or ad-hoc — flexible and pilot-friendly.",url:"index.html#engagement"},
 {type:"Sections",title:"Security",snippet:"Role-based access, named individuals, ISO 27001 alignment on our roadmap.",url:"index.html#security"},
 {type:"Sections",title:"Savings calculator",snippet:"Indicative annual saving range in AUD — not a quote.",url:"index.html#calculator"},
-{type:"Sections",title:"Key Australian dates",snippet:"BAS, IAS, super and tax reference dates.",url:"index.html#dates"},
-{type:"Sections",title:"About",snippet:"A dependable extension of your team, native to your stack.",url:"index.html#about"},
+{type:"Sections",title:"Key Australian dates",snippet:"BAS, IAS, super and tax reference dates.",url:"outsourcing.html#dates"},
+{type:"Pages",title:"About INFITEX",snippet:"Our vision, mission and values; how we work with Australian practices.",url:"about.html"},
 {type:"Sections",title:"Start a pilot",snippet:"Begin with a low-risk pilot on a defined scope.",url:"index.html#pilot"},
 {type:"Services",title:"Bookkeeping & reconciliations",snippet:"Day-to-day books kept accurate and current.",url:"outsourcing.html#cycle"},
 {type:"Services",title:"Accounts payable & receivable",snippet:"Bills and invoices processed and matched.",url:"outsourcing.html#cycle"},
@@ -400,7 +404,7 @@ def page(filename, title, desc, body, jsonld, og_type="website", section_nav=Fal
     '<meta name="author" content="INFITEX Global Advisory">'
     '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">'
     '<link rel="canonical" href="%s">'
-    '<meta name="google-site-verification" content="GOOGLE_SITE_VERIFICATION">'
+    '<!-- SEO/GEO verification scaffold — replace PLACEHOLDER tokens after deploy --><meta name="google-site-verification" content="GOOGLE_SITE_VERIFICATION"><!-- <meta name="msvalidate.01" content="BING_SITE_VERIFICATION"> --><!-- <meta name="yandex-verification" content="YANDEX_SITE_VERIFICATION"> --><!-- <meta name="p:domain_verify" content="PINTEREST_SITE_VERIFICATION"> -->'
     '<meta property="og:type" content="%s"><meta property="og:site_name" content="INFITEX Global Advisory">'
     '<meta property="og:title" content="%s"><meta property="og:description" content="%s">'
     '<meta property="og:url" content="%s"><meta property="og:image" content="%s/og-image.png">'
@@ -410,7 +414,7 @@ def page(filename, title, desc, body, jsonld, og_type="website", section_nav=Fal
     '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="%s">'
     '<meta name="twitter:description" content="%s"><meta name="twitter:image" content="%s/og-image.png">'
     '<meta name="twitter:image:alt" content="INFITEX Global Advisory">'
-    '<meta name="theme-color" content="#F5F3EE">'
+    '<meta name="theme-color" content="#F7F6F1" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#14211C" media="(prefers-color-scheme: dark)">'
     '<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="favicon.svg">'
     '<link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">'
     +NOFLASH+FONTS+
