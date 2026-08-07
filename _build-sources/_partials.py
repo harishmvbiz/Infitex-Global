@@ -404,6 +404,7 @@ def page(filename, title, desc, body, jsonld, og_type="website", section_nav=Fal
     else:
         jsonld_full = jsonld
     head = ('<!doctype html><html lang="en-AU"><head><meta charset="utf-8">'
+    '<!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-7Z1QJE4YSM"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-7Z1QJE4YSM");</script>'
     '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
     '<title>%s</title><meta name="description" content="%s">'
     '<meta name="author" content="INFITEX Global Advisory">'
