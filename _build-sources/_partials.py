@@ -420,11 +420,13 @@ def page(filename, title, desc, body, jsonld, og_type="website", section_nav=Fal
     '<meta name="twitter:description" content="%s"><meta name="twitter:image" content="%s/og-image.png">'
     '<meta name="twitter:image:alt" content="INFITEX Global Advisory">'
     '<meta name="theme-color" content="#F7F6F1" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#14211C" media="(prefers-color-scheme: dark)">'
-    '<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="favicon.svg">'
+    '<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png">'
     '<link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">'
     +NOFLASH+FONTS+
     ('<link rel="stylesheet" href="styles.css%s">' % (("?v="+CSS_VER) if CSS_VER else ""))+
     '<script type="application/ld+json">%s</script>'
+    '<!-- Microsoft Clarity -->'
+    '<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","xyhvnnr2j4");</script>'
     '</head><body>') % (title,desc,canon,og_type,title,desc,canon,DOMAIN,title,desc,DOMAIN,jsonld_full)
     tail = (dialogs()+search_overlay()+fabs()+footer()+SEARCH_INDEX_JS+('<script src="app.js%s" defer></script></body></html>' % (("?v="+JS_VER) if JS_VER else "")))
     return head + header(filename) + '<main id="main">' + body + '</main>' + tail
