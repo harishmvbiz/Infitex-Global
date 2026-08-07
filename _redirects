@@ -1,14 +1,14 @@
-# Clean-URL redirects — read natively by Cloudflare Pages and Netlify.
-# Lets visitors use /outsourcing instead of /outsourcing.html.
+# Redirects — read natively by Cloudflare Pages.
+#
+# IMPORTANT: Cloudflare Pages serves "clean" URLs (/about, /contact, …) natively
+# and automatically redirects /page.html → /page. Because of that, you must NOT
+# add rules like "/about  /about.html" — combined with the automatic .html→clean
+# redirect they create an INFINITE redirect loop (this broke about/contact/privacy/
+# terms/digitech/sitemap). Only list alias slugs whose name differs from the page
+# they point to, and point them at the clean URL.
 
-/home              /index.html          301
-/practices         /outsourcing.html    301
-/for-practices     /outsourcing.html    301
-/business          /industry.html       301
-/for-business      /industry.html       301
-/digitech          /digitech.html       301
-/about             /about.html          301
-/contact           /contact.html        301
-/privacy           /privacy.html        301
-/terms             /terms.html          301
-/sitemap           /sitemap.html        301
+/home           /             301
+/practices      /outsourcing  301
+/for-practices  /outsourcing  301
+/business       /industry     301
+/for-business   /industry     301
