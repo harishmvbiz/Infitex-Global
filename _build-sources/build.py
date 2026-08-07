@@ -1282,7 +1282,24 @@ def build_contact():
         body, graph)
 
 # ================================================================ write all
+import re as _re
+_CLEAN_SLUGS = ("about", "contact", "outsourcing", "industry", "digitech", "privacy", "terms", "sitemap")
+def cleanurls(html):
+    # Cloudflare Pages serves extensionless clean URLs and 301s /x.html -> /x.
+    # Make every in-page URL (canonical, OG, JSON-LD, nav/footer links, search index)
+    # use the clean form so nothing points at a redirect. Asset files (.css/.js/.svg/
+    # .png/.xml) are left untouched.
+    html = html.replace("https://infitexglobal.com/index.html", "https://infitexglobal.com/")
+    html = _re.sub(r"https://infitexglobal\.com/(" + "|".join(_CLEAN_SLUGS) + r")\.html",
+                   r"https://infitexglobal.com/\1", html)
+    html = _re.sub(r'(["\'])index\.html(#[^"\']*)?\1',
+                   lambda m: m.group(1) + "/" + (m.group(2) or "") + m.group(1), html)
+    html = _re.sub(r'(["\'])(' + "|".join(_CLEAN_SLUGS) + r')\.html(#[^"\']*)?\1',
+                   lambda m: m.group(1) + "/" + m.group(2) + (m.group(3) or "") + m.group(1), html)
+    return html
+
 def write(fn, content):
+    content = cleanurls(content)
     with open(OUT + "/" + fn, "w", encoding="utf-8") as f:
         f.write(content)
     print("wrote", fn, "(%d bytes)" % len(content.encode("utf-8")))

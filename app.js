@@ -604,7 +604,7 @@
   (function(){
     var url=CONFIG.bookingLink;
     var live=url && url!=="BOOKING_LINK";
-    var contactHref = document.getElementById("contact") ? "#contact" : "index.html#contact";
+    var contactHref = document.getElementById("contact") ? "#contact" : "/#contact";
     $$("[data-booking]").forEach(function(a){
       if(live){ a.setAttribute("href",url); a.setAttribute("target","_blank"); a.setAttribute("rel","noopener"); }
       else { a.setAttribute("href",contactHref); a.title="Add your booking link in app.js CONFIG to enable instant booking."; }
