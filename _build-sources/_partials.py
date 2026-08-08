@@ -7,7 +7,8 @@ CSS_VER = ""
 JS_VER = ""
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-'<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">')
+'<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" onload="this.onload=null;this.rel=\'stylesheet\'">'
+'<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap"></noscript>')
 
 NOFLASH = ("<script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('ix-theme')||'light';"
 "d.setAttribute('data-theme',t);if(localStorage.getItem('ix-contrast')==='high')d.setAttribute('data-contrast','high');"

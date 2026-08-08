@@ -16,6 +16,16 @@ PAGES = ["index.html","outsourcing.html","industry.html","digitech.html",
          "privacy.html","terms.html","sitemap.html"]
 
 issues, warns, oks = [], [], []
+DOMAIN = "https://infitexglobal.com"
+def _clean_url(pg): return DOMAIN + "/" + ("" if pg=="index.html" else pg[:-5])
+def _resolve(href):
+    fp=href.split("#")[0].split("?")[0]
+    if fp.startswith("/"): fp=fp[1:]
+    if fp=="": fp="index.html"
+    elif fp.endswith("/"): fp=fp+"index.html"
+    if os.path.exists(os.path.join(OUT,fp)): return fp
+    if not os.path.splitext(fp)[1] and os.path.exists(os.path.join(OUT,fp+".html")): return fp+".html"
+    return fp
 def I(p,m): issues.append((p,m))
 def W(p,m): warns.append((p,m))
 def OK(p,m): oks.append((p,m))
@@ -90,13 +100,13 @@ for pg in PAGES:
         if dl<50: W(pg,"meta description %d chars (<50, thin)"%dl)
     # ---------- SEO: canonical ----------
     if not m.canonical: I(pg,"missing canonical")
-    elif not m.canonical.endswith(pg): W(pg,"canonical %r != page"%m.canonical)
+    elif not (m.canonical.endswith(pg) or m.canonical==_clean_url(pg)): W(pg,"canonical %r != page"%m.canonical)
     # ---------- SEO: OG + Twitter ----------
     for k in ("og:title","og:description","og:url","og:image","og:type"):
         if k not in m.og: I(pg,"missing %s"%k)
     for k in ("twitter:card","twitter:title","twitter:image"):
         if k not in m.tw: W(pg,"missing %s"%k)
-    if m.og.get("og:url") and not m.og["og:url"].endswith(pg):
+    if m.og.get("og:url") and not (m.og["og:url"].endswith(pg) or m.og["og:url"]==_clean_url(pg)):
         W(pg,"og:url %r != page"%m.og["og:url"])
     # ---------- headings ----------
     if m.h1!=1: I(pg,"expected exactly 1 <h1>, found %d"%m.h1)
@@ -123,7 +133,7 @@ for pg in PAGES:
             if frag not in anchors_by_page.get(pg,set()):
                 W(pg,"same-page anchor not found: %s"%href)
             continue
-        file_part=href.split("#")[0]
+        file_part=_resolve(href)
         frag=href.split("#")[1] if "#" in href else None
         if file_part and not os.path.exists(os.path.join(OUT,file_part)):
             I(pg,"broken internal link: %s"%href); continue
@@ -162,7 +172,7 @@ for pg in PAGES:
     whomatch=re.search(r'Who we help.*?</div></div>',nav,re.S)
     if whomatch:
         block=whomatch.group(0)
-        for need in ("outsourcing.html","industry.html","digitech.html"):
+        for need in ("/outsourcing","/industry","/digitech"):
             if need not in block: W(pg,"'Who we help' missing link to %s"%need)
     if pg=="index.html":
         OK(pg,"nav: 3 mega-menus + simple Home/Contact verified")
@@ -172,7 +182,7 @@ print("\n" + "-"*68)
 print("MEGA-MENU LINK TARGETS (%d unique)"%len(nav_targets))
 print("-"*68)
 for href in sorted(nav_targets):
-    file_part=href.split("#")[0]
+    file_part=_resolve(href)
     frag=href.split("#")[1] if "#" in href else None
     if file_part and not os.path.exists(os.path.join(OUT,file_part)):
         I("nav","mega target broken file: %s"%href); continue

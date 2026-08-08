@@ -84,8 +84,13 @@ for pg in PAGES:
                 if href[1:] not in s.anchors: warns.append((pg,"missing same-page anchor %s"%href))
             continue
         if "data-booking" in raw and href=="#contact": continue
-        file_part=href.split("#")[0]; anchor=href.split("#")[1] if "#" in href else None
-        if file_part and not os.path.exists(os.path.join(OUT,file_part)):
+        fp=href.split("#")[0].split("?")[0]
+        if not fp: continue
+        if fp.startswith("/"): fp=fp[1:]
+        if fp=="": fp="index.html"
+        elif fp.endswith("/"): fp=fp+"index.html"
+        cands=[fp]+([fp+".html"] if not os.path.splitext(fp)[1] else [])
+        if not any(os.path.exists(os.path.join(OUT,c)) for c in cands):
             issues.append((pg,"broken internal link: %s"%href))
     # buttons need accessible name
     for b in s.buttons:
