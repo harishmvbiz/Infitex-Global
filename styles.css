@@ -1,3 +1,15 @@
+/* Self-hosted fonts (woff2, latin) — replaces Google Fonts to remove third-party
+   render-blocking connections. font-display:swap keeps text visible immediately. */
+@font-face{font-family:'Schibsted Grotesk';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/schibsted-grotesk-500.woff2) format('woff2');}
+@font-face{font-family:'Schibsted Grotesk';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/schibsted-grotesk-600.woff2) format('woff2');}
+@font-face{font-family:'Schibsted Grotesk';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/schibsted-grotesk-700.woff2) format('woff2');}
+@font-face{font-family:'Schibsted Grotesk';font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/schibsted-grotesk-800.woff2) format('woff2');}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/source-sans-3-400.woff2) format('woff2');}
+@font-face{font-family:'Source Sans 3';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/source-sans-3-600.woff2) format('woff2');}
+@font-face{font-family:'Source Sans 3';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/source-sans-3-400-italic.woff2) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/jetbrains-mono-400.woff2) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/jetbrains-mono-500.woff2) format('woff2');}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/jetbrains-mono-700.woff2) format('woff2');}
 /* =========================================================================
    INFITEX Global Advisory — "Eucalypt"
    Vanilla CSS. Light-first, premium B2B palette: eucalyptus green primary +
