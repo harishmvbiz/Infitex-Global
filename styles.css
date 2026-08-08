@@ -1020,3 +1020,48 @@ img,svg{max-width:100%;}
 .fab .callfab:hover{color:var(--primary-2);border-color:var(--primary-2);}
 .fab .qrfab{color:var(--accent);border-color:var(--accent);}
 .fab .qrfab:hover{color:var(--accent);border-color:var(--accent);}
+
+/* ===================================================================
+   Where we work — three markets (home + about)
+   Uses design tokens so it adapts to light/dark automatically.
+   =================================================================== */
+#markets .mkt-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:24px;}
+#markets .mkt-head .eyebrow{margin-bottom:10px;}
+#markets .mkt-head h2{margin:0;}
+#markets .mkt-expand{white-space:nowrap;}
+.mkt-card{position:relative;display:flex;flex-direction:column;background:var(--bg-2);border:1px solid var(--line);
+  border-radius:var(--radius);padding:24px;text-decoration:none;color:var(--fg);
+  transition:border-color .15s,transform .15s,box-shadow .15s;}
+a.mkt-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow);}
+.mkt-flag{width:46px;height:32px;border-radius:7px;overflow:hidden;flex:0 0 auto;margin-bottom:14px;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.14);}
+.mkt-flag svg{display:block;width:100%;height:100%;}
+.mkt-place{display:flex;flex-direction:column;gap:2px;margin-bottom:12px;}
+.mkt-cty{font-family:var(--font-head);font-weight:700;font-size:1.18rem;line-height:1.15;color:var(--fg);letter-spacing:-.01em;}
+.mkt-city{font-size:.9rem;color:var(--muted);}
+.mkt-desc{font-size:.98rem;line-height:1.5;color:var(--muted);margin:0 0 16px;}
+.mkt-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;}
+.mkt-tag{border:1px solid var(--line-2);border-radius:999px;padding:5px 13px;font-size:.8rem;font-weight:600;color:var(--fg);}
+.mkt-arrow{position:absolute;top:18px;right:18px;color:var(--muted);font-size:1.05rem;line-height:1;transition:transform .15s,color .15s;}
+a.mkt-card:hover .mkt-arrow,a.mkt-card:focus-visible .mkt-arrow{color:var(--accent);transform:translate(2px,-2px);}
+.mkt-dest{font-size:.8rem;color:var(--accent);font-weight:600;margin-top:12px;opacity:0;max-height:0;overflow:hidden;transition:opacity .2s,max-height .2s;}
+a.mkt-card:hover .mkt-dest,a.mkt-card:focus-visible .mkt-dest{opacity:1;max-height:2.4em;}
+/* Australia — you are here (no link) */
+.mkt-card.is-here{cursor:default;background:var(--bg-2);
+  background:color-mix(in srgb,var(--positive) 7%,var(--bg-2));
+  border-color:color-mix(in srgb,var(--positive) 42%,var(--line));}
+.mkt-badge{position:absolute;top:16px;right:16px;display:inline-flex;align-items:center;gap:7px;color:var(--positive);
+  background:color-mix(in srgb,var(--positive) 16%,var(--bg-2));border-radius:999px;padding:5px 11px;font-size:.78rem;font-weight:700;}
+.mkt-bdot{width:8px;height:8px;border-radius:50%;background:var(--positive);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--positive) 22%,transparent);}
+.mkt-here-msg{display:flex;align-items:center;gap:8px;margin-top:14px;color:var(--positive);
+  background:color-mix(in srgb,var(--positive) 12%,var(--bg-2));border-radius:10px;
+  font-size:.9rem;font-weight:600;opacity:0;max-height:0;padding:0 13px;overflow:hidden;
+  transition:opacity .22s,max-height .22s,padding .22s;}
+.mkt-card.is-here:hover .mkt-here-msg,.mkt-card.is-here:focus-visible .mkt-here-msg,.mkt-card.is-here:focus-within .mkt-here-msg{
+  opacity:1;max-height:5em;padding:10px 13px;}
+@media(max-width:620px){
+  #markets .mkt-head{align-items:flex-start;}
+  .mkt-here-msg{opacity:1;max-height:5em;padding:10px 13px;}
+}
+@media(prefers-reduced-motion:reduce){.mkt-card,.mkt-arrow,.mkt-dest,.mkt-here-msg{transition:none;}}

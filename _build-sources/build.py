@@ -211,6 +211,45 @@ def step(h, p):
 def feat(icon, b, p):
     return '<li><div class="ico">%s</div><div><b>%s</b><p>%s</p></div></li>' % (ico(icon), b, p)
 
+# ---------------------------------------------------------------- shared: where we work (three markets)
+_MKT_FLAG_IN = '<svg viewBox="0 0 60 40" preserveAspectRatio="none" role="img" aria-label="India"><rect width="60" height="40" fill="#fff"/><rect width="60" height="13.34" fill="#FF9933"/><rect y="26.66" width="60" height="13.34" fill="#138808"/><circle cx="30" cy="20" r="4.6" fill="none" stroke="#0A3D91" stroke-width="1.3"/></svg>'
+_MKT_FLAG_AE = '<svg viewBox="0 0 60 40" preserveAspectRatio="none" role="img" aria-label="United Arab Emirates"><rect width="60" height="13.34" fill="#00732f"/><rect y="13.34" width="60" height="13.34" fill="#fff"/><rect y="26.66" width="60" height="13.34" fill="#000"/><rect width="16" height="40" fill="#ff0000"/></svg>'
+_MKT_FLAG_AU = '<svg viewBox="0 0 60 40" preserveAspectRatio="none" role="img" aria-label="Australia"><rect width="60" height="40" fill="#00247d"/><path d="M0 0 L30 20 M30 0 L0 20" stroke="#fff" stroke-width="3.2"/><path d="M15 0 V20 M0 10 H30" stroke="#fff" stroke-width="5"/><path d="M15 0 V20 M0 10 H30" stroke="#cf142b" stroke-width="2.6"/><path d="M2 0 L15 8.5 L28 0 M0 18 L15 11 L30 18" stroke="#cf142b" stroke-width="1.4" fill="none"/><circle cx="15" cy="31" r="2.1" fill="#fff"/><circle cx="46" cy="12" r="1.5" fill="#fff"/><circle cx="52" cy="22" r="1.5" fill="#fff"/><circle cx="42" cy="24" r="1.3" fill="#fff"/><circle cx="49" cy="31" r="1.3" fill="#fff"/><circle cx="47" cy="20" r="0.8" fill="#fff"/></svg>'
+
+def markets_section():
+    def _tags(ts): return "".join('<span class="mkt-tag">%s</span>' % t for t in ts)
+    def _ext(flag, cty, city, desc, host, url):
+        return ('<a class="mkt-card" href="%s" target="_blank" rel="noopener" '
+                'aria-label="%s, %s — opens %s in a new tab">'
+                '<span class="mkt-arrow" aria-hidden="true">↗</span>'
+                '<span class="mkt-flag">%s</span>'
+                '<div class="mkt-place"><span class="mkt-cty">%s</span><span class="mkt-city">%s</span></div>'
+                '<p class="mkt-desc">%s</p>'
+                '<div class="mkt-tags">%s</div>'
+                '<span class="mkt-dest" aria-hidden="true">Opens %s ↗</span></a>'
+                ) % (url, cty, city, host, flag, cty, city, desc, _tags(["Digital", "Advisory"]), host)
+    india = _ext(_MKT_FLAG_IN, "India", "Chennai",
+        "Our delivery home base. Full digital and advisory — accounting, GST, income tax, compliance and certifications, plus websites, hosting and SEO — for Indian businesses, end to end.",
+        "fintexglobal.com", "https://fintexglobal.com/")
+    uae = _ext(_MKT_FLAG_AE, "United Arab Emirates", "Dubai",
+        "Company formation and market-access across the Emirates, backed by the same full digital and advisory support — so you can set up, bank and grow with confidence.",
+        "safwafintex.com", "https://safwafintex.com/")
+    aus = ('<div class="mkt-card is-here" tabindex="0" role="note" aria-label="Australia, Melbourne — you are already here">'
+        '<span class="mkt-badge"><span class="mkt-bdot" aria-hidden="true"></span>You are here</span>'
+        '<span class="mkt-flag">%s</span>'
+        '<div class="mkt-place"><span class="mkt-cty">Australia</span><span class="mkt-city">Melbourne</span></div>'
+        '<p class="mkt-desc">White-label accounting outsourcing and Virtual CFO for practices and growing firms — the full digital and advisory stack, delivered to your standards and sign-off.</p>'
+        '<div class="mkt-tags">%s</div>'
+        '<span class="mkt-here-msg">✓ You’re already here — this is INFITEX Global (Australia).</span>'
+        '</div>') % (_MKT_FLAG_AU, _tags(["Digital", "Advisory"]))
+    grid = '<div class="grid grid-3 mkt-grid">%s%s%s</div>' % (india, uae, aus)
+    return ('<section class="section" id="markets" aria-labelledby="markets-title"><div class="shell">'
+        '<div class="mkt-head"><div>'
+        '<span class="eyebrow">Where we work</span>'
+        '<h2 class="section-title" id="markets-title">Local presence in three markets</h2></div>'
+        '<a class="btn btn-ghost mkt-expand" href="/contact">Plan your expansion &rarr;</a></div>'
+        '%s</div></section>') % grid
+
 # ---------------------------------------------------------------- shared: contact section
 def contact_section(page_mode=False):
     form = ('<form id="contactForm" class="card" novalidate>'
@@ -550,7 +589,7 @@ def build_home():
     s_test = testimonials_section(eyebrow="Our stories", alt=True, slider=True)
 
     body = (hero + section_nav() + s_stack + s_who + s_div + s_eng + s_sec
-            + s_dig + s_calc + s_test + s_about + s_faq)
+            + s_dig + s_calc + s_test + s_about + markets_section() + s_faq)
     body = alt_sections(body)
 
     website_ld = json.dumps({
@@ -1244,7 +1283,7 @@ def build_about():
         "Start with a low-risk pilot",
         "Pick a small, defined scope. See the quality, the communication and the turnaround for yourself before you scale.")
 
-    body = alt_sections(crumb + hero + s_about + s_vmb + s_cta)
+    body = alt_sections(crumb + hero + s_about + s_vmb + markets_section() + s_cta)
     graph = '{"@context":"https://schema.org","@graph":[%s,%s]}' % (
         ORG_LD, breadcrumb([("Home", "index.html"), ("About", "about.html")]))
     return page("about.html",
